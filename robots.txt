@@ -1,0 +1,9 @@
+User-agent: *
+Allow: /
+
+# Source markdown the article pages were generated from — the rendered
+# pages at the site root are the versions worth indexing.
+Disallow: /blog/
+Disallow: /tools/
+
+Sitemap: https://www.reducemail.org/sitemap.xml
