@@ -27,6 +27,7 @@ slash (`/start-here/`), matching the URLs the site used on Ghost.
 | `privacy-portals/index.html` | Data-deletion portal directory |
 | `about/index.html` | About |
 | `<slug>/index.html` | One article each, 27 of them, at the root so the Ghost URLs still resolve |
+| `404.html` | Not-found page GitHub Pages serves for any unmatched path |
 | `styles.css` | Hand-authored design system (tokens → base → components) |
 | `directory-filter.js` | Client-side filter shared by both directory pages |
 | `assets/` | Envelope illustrations and the hero pattern |
@@ -34,9 +35,10 @@ slash (`/start-here/`), matching the URLs the site used on Ghost.
 | `blog/` | The Ghost markdown export the articles were generated from |
 | `tools/import-blog.py` | The one-time importer that generated those pages |
 | `tools/optimize-images.py` | Downscales and re-encodes `content/images/` (run before the importer) |
+| `tools/build-sitemap.py` | Regenerates `sitemap.xml` from the pages' canonical tags |
 
 Header and footer markup is duplicated per page — when you change one, change them all
-(the five section pages plus every article). Adding a brand means adding one
+(the five section pages, every article, and `404.html`). Adding a brand means adding one
 `<li data-name="…">` to the relevant directory; the filter and the count pick it up
 automatically. Keep the homepage tile counts in sync.
 
@@ -67,6 +69,27 @@ and rebuild. Everything else from talktomel was recovered from the archive's cap
 The homepage `#resources` section lists all 27 articles as three themed shelves of nine. It
 is deliberately sized to that count — no pagination, no "view all". Adding an article means
 placing it on a shelf by hand and rebalancing.
+
+### Hosting
+
+GitHub Pages serves the repository root of `main` directly — pushing to `main` publishes.
+
+`CNAME` pins the custom domain to **`www.reducemail.org`**, and that is the canonical
+host: every page's `<link rel="canonical">` and `og:url` uses it, and GitHub redirects the
+apex `reducemail.org` to it. Keep new pages on `www` too — a canonical pointing at the
+apex would fight the redirect and split the page's search signals.
+
+`.nojekyll` turns off Jekyll processing. Without it Jekyll would try to build the site and
+`blog/*.md` would be rendered as pages rather than left as the source files they are.
+
+`sitemap.xml` is committed, not generated at deploy time — regenerate and commit it after
+adding or removing a page:
+
+    python3 tools/build-sitemap.py
+
+It reads each page's canonical tag, so a page missing one is skipped and reported. `404.html`
+is skipped by design: it carries `noindex` and no canonical. `robots.txt` points crawlers at
+the sitemap and keeps them out of `blog/` and `tools/`.
 
 ## Core Design Principles
 1. **Free-first framing** — every page reinforces this is free, public, and community-driven
