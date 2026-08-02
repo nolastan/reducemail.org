@@ -26,13 +26,47 @@ slash (`/start-here/`), matching the URLs the site used on Ghost.
 | `opt-out-forms/index.html` | Brand opt-out form directory |
 | `privacy-portals/index.html` | Data-deletion portal directory |
 | `about/index.html` | About |
+| `<slug>/index.html` | One article each, 27 of them, at the root so the Ghost URLs still resolve |
 | `styles.css` | Hand-authored design system (tokens → base → components) |
 | `directory-filter.js` | Client-side filter shared by both directory pages |
 | `assets/` | Envelope illustrations and the hero pattern |
+| `content/images/` | Article images, at the paths Ghost served them from |
+| `blog/` | The Ghost markdown export the articles were generated from |
+| `tools/import-blog.py` | The one-time importer that generated those pages |
+| `tools/optimize-images.py` | Downscales and re-encodes `content/images/` (run before the importer) |
 
-Header and footer markup is duplicated per page — when you change one, change all five.
-Adding a brand means adding one `<li data-name="…">` to the relevant directory; the filter
-and the count pick it up automatically. Keep the homepage tile counts in sync.
+Header and footer markup is duplicated per page — when you change one, change them all
+(the five section pages plus every article). Adding a brand means adding one
+`<li data-name="…">` to the relevant directory; the filter and the count pick it up
+automatically. Keep the homepage tile counts in sync.
+
+### Articles
+
+The generated HTML is the source of truth. `tools/import-blog.py` exists to document how
+the pages were produced and to rebuild them wholesale if the design changes — rerunning it
+overwrites hand edits, so for a one-off correction edit the article's `index.html` (and the
+matching `blog/*.md`, so the two don't drift).
+
+Images live at the paths Ghost served them from, so the old image URLs still resolve.
+`tools/optimize-images.py` caps them at 1600px and re-encodes; some PNGs of photographs
+become JPEGs, and `localize()` in the importer follows the changed extension. Run the
+optimizer first, then the importer, so `width`/`height` match the files on disk.
+
+`tools/imported-images.json` maps each externally hosted image URL to its local copy. When
+regenerating it, match on the filename *stem* — the optimizer changes extensions, so an
+exact-path check silently drops those entries and the pages fall back to hotlinking.
+
+Two images can't be imported: `login.truste.com` 404s, and two `talktomel.com` files
+(`van-driving-away`, `person-sorting-mail`) were never crawled by the Wayback Machine —
+talktomel.com itself now redirects every path to the homepage. They are listed in
+`DEAD_IMAGES` in the importer and dropped from the output, keeping their captions. If the
+originals turn up, drop them into `content/images/imported/talktomel/`, remove the entries,
+and rebuild. Everything else from talktomel was recovered from the archive's capture of
+`blog.talktomel.com`, the blog's earlier home.
+
+The homepage `#resources` section lists all 27 articles as three themed shelves of nine. It
+is deliberately sized to that count — no pagination, no "view all". Adding an article means
+placing it on a shelf by hand and rebalancing.
 
 ## Core Design Principles
 1. **Free-first framing** — every page reinforces this is free, public, and community-driven
