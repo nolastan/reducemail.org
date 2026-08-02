@@ -11,8 +11,28 @@ ReduceMail.org is a **free public-resource website** that helps people opt out o
 
 ## Key Resources
 - **Design System:** See [`docs/design-system.md`](docs/design-system.md) for complete visual language, color tokens, typography, spacing, components, and content tone.
-- **Main entry point:** Look for `index.html` or `/pages/home` for the homepage structure.
+- **Main entry point:** [`index.html`](index.html) at the repo root.
 - **Content types:** Guides, templates, letter generators, directory tables, FAQs, blog posts.
+
+## Structure
+Plain static HTML served by GitHub Pages. There is **no build step** — edit the HTML and
+CSS directly. Each page is a directory with an `index.html` so the URL keeps its trailing
+slash (`/start-here/`), matching the URLs the site used on Ghost.
+
+| Path | Page |
+|------|------|
+| `index.html` | Homepage |
+| `start-here/index.html` | The five big opt-out lists |
+| `opt-out-forms/index.html` | Brand opt-out form directory |
+| `privacy-portals/index.html` | Data-deletion portal directory |
+| `about/index.html` | About |
+| `styles.css` | Hand-authored design system (tokens → base → components) |
+| `directory-filter.js` | Client-side filter shared by both directory pages |
+| `assets/` | Envelope illustrations and the hero pattern |
+
+Header and footer markup is duplicated per page — when you change one, change all five.
+Adding a brand means adding one `<li data-name="…">` to the relevant directory; the filter
+and the count pick it up automatically. Keep the homepage tile counts in sync.
 
 ## Core Design Principles
 1. **Free-first framing** — every page reinforces this is free, public, and community-driven
