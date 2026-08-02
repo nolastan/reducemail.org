@@ -270,9 +270,6 @@ h3,
 .site-header {
   background: var(--surface);
   border-bottom: 1px solid var(--border);
-  position: sticky;
-  top: 0;
-  z-index: 50;
 }
 
 .site-header__inner {
@@ -872,6 +869,402 @@ h3,
   width: 18px;
   height: 18px;
   flex: none;
+}
+
+/* --- Resources (homepage index of the 27 articles) ------------------------ */
+
+/* Twenty-seven articles split evenly across three themes, so the section is
+   three columns of nine — one shelf per theme, no truncation, no "view all". */
+.shelves {
+  display: grid;
+  gap: 24px;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+
+@media (max-width: 980px) {
+  .shelves {
+    grid-template-columns: 1fr;
+  }
+}
+
+.shelf {
+  border-radius: var(--r-xl);
+  padding: 28px 28px 24px;
+}
+
+.shelf--blue {
+  background: var(--tint-blue);
+}
+
+.shelf--lavender {
+  background: var(--tint-lavender);
+}
+
+.shelf--mint {
+  background: var(--tint-mint);
+}
+
+.shelf__head {
+  padding-bottom: 16px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid rgba(26, 26, 46, 0.1);
+}
+
+@media (prefers-color-scheme: dark) {
+  .shelf__head {
+    border-bottom-color: rgba(255, 255, 255, 0.12);
+  }
+}
+
+.shelf__head h3 {
+  font-size: 19px;
+}
+
+.shelf__head p {
+  margin-top: 4px;
+  font-size: 14px;
+  color: var(--text-2);
+}
+
+.shelf__list {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  counter-reset: shelf-item;
+}
+
+.shelf__list li {
+  border-bottom: 1px solid rgba(26, 26, 46, 0.07);
+}
+
+@media (prefers-color-scheme: dark) {
+  .shelf__list li {
+    border-bottom-color: rgba(255, 255, 255, 0.08);
+  }
+}
+
+.shelf__list li:last-child {
+  border-bottom: 0;
+}
+
+.shelf__list a {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  padding: 11px 0;
+  color: var(--text);
+  text-decoration: none;
+  font-size: 15.5px;
+  font-weight: 500;
+  line-height: 1.4;
+}
+
+.shelf__list a::before {
+  counter-increment: shelf-item;
+  content: counter(shelf-item);
+  flex: none;
+  width: 1.4em;
+  font-size: 13px;
+  font-weight: 600;
+  font-variant-numeric: tabular-nums;
+  color: var(--text-3);
+}
+
+.shelf__list a:hover {
+  color: var(--accent-deep);
+}
+
+.shelf__list a:hover::before {
+  color: var(--accent);
+}
+
+/* --- Article -------------------------------------------------------------- */
+
+.article {
+  padding-block: 48px 80px;
+}
+
+.article > .wrap {
+  max-width: calc(var(--read-max) + var(--gutter) * 2);
+}
+
+.article__head {
+  margin-bottom: 32px;
+}
+
+.article__back {
+  display: inline-block;
+  margin-bottom: 16px;
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--text-3);
+  text-decoration: none;
+}
+
+.article__back::before {
+  content: "← ";
+}
+
+.article__back:hover {
+  color: var(--accent-deep);
+}
+
+.article__head h1 {
+  margin-bottom: 16px;
+}
+
+.article__meta {
+  margin-top: 16px;
+  font-size: 14px;
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+.article__feature {
+  margin: 0 0 40px;
+}
+
+.article__feature img {
+  width: 100%;
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+}
+
+.article__foot {
+  margin-top: 56px;
+  padding-top: 32px;
+  border-top: 1px solid var(--border);
+}
+
+.article__foot .btn-row {
+  margin-top: 16px;
+}
+
+/* --- Prose (rendered article body) ---------------------------------------- */
+
+.prose > * + * {
+  margin-top: 20px;
+}
+
+.prose h2 {
+  margin-top: 48px;
+  font-size: clamp(24px, 3vw, 28px);
+}
+
+.prose h3 {
+  margin-top: 40px;
+  font-size: 21px;
+}
+
+.prose h4 {
+  margin-top: 32px;
+  font-size: 18px;
+}
+
+.prose p {
+  color: var(--text-2);
+}
+
+.prose strong {
+  color: var(--text);
+  font-weight: 600;
+}
+
+.prose ul,
+.prose ol {
+  margin-block: 20px;
+  padding-left: 24px;
+  color: var(--text-2);
+}
+
+.prose li + li {
+  margin-top: 8px;
+}
+
+.prose hr {
+  margin-block: 40px;
+  border: 0;
+  border-top: 1px solid var(--border);
+}
+
+.prose pre {
+  margin: 0;
+  padding: 20px 24px;
+  border-radius: var(--r-md);
+  background: var(--surface);
+  border: 1px solid var(--border);
+  overflow-x: auto;
+}
+
+.prose pre code {
+  font-size: 15px;
+  line-height: 1.6;
+  white-space: pre-wrap;
+  word-break: break-word;
+}
+
+.prose code {
+  font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace;
+  font-size: 0.92em;
+}
+
+.prose :not(pre) > code {
+  padding: 2px 6px;
+  border-radius: var(--r-sm);
+  background: var(--tint-lavender);
+  color: var(--text);
+}
+
+.prose blockquote {
+  margin: 32px 0;
+  padding: 4px 0 4px 24px;
+  border-left: 3px solid var(--accent);
+  color: var(--text-2);
+}
+
+.prose blockquote p + p {
+  margin-top: 12px;
+}
+
+.prose figure {
+  margin: 32px 0;
+}
+
+.prose figure img {
+  width: 100%;
+  border-radius: var(--r-md);
+  border: 1px solid var(--border);
+}
+
+/* Transparent PNGs already carry their own edge — a shadowed screenshot or a
+   cutout. A border would box in the shadow, and a surface fill would show as a
+   panel behind the cutout. */
+.prose figure img.bare,
+.gallery img.bare {
+  border: 0;
+  background: transparent;
+}
+
+.prose figcaption,
+.prose .figure-note {
+  margin-top: 10px;
+  font-size: 14px;
+  color: var(--text-3);
+  text-align: center;
+}
+
+.prose figcaption a,
+.prose .figure-note a {
+  color: inherit;
+}
+
+/* Runs of images exported from a Ghost gallery card */
+.gallery {
+  display: grid;
+  gap: 12px;
+  /* Three across the reading column at most — narrower than that and the
+     photos stop being readable. */
+  grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+}
+
+/* Runs that already share a shape stay at natural size. Mixed runs get a fixed
+   tile so rows don't go ragged: snapshots fill a square, while documents and
+   screenshots are letterboxed into the group's median shape so no content is
+   cropped away. */
+.gallery[data-fit="cover"] img {
+  aspect-ratio: 1;
+  object-fit: cover;
+}
+
+.gallery[data-fit="tile"] img {
+  aspect-ratio: var(--tile-aspect, 4 / 3);
+  object-fit: contain;
+  background: var(--surface);
+}
+
+.gallery[data-count="2"],
+.gallery[data-count="4"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+
+.gallery figcaption {
+  grid-column: 1 / -1;
+}
+
+@media (max-width: 520px) {
+  .gallery,
+  .gallery[data-count="2"],
+  .gallery[data-count="4"] {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Ghost bookmark card: a link with a title, blurb, and its host */
+.bookmark {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 20px 24px;
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  background: var(--surface);
+  box-shadow: var(--shadow-1);
+  text-decoration: none;
+  color: inherit;
+  transition: box-shadow 150ms ease, border-color 150ms ease,
+    transform 150ms ease;
+}
+
+.bookmark:hover {
+  color: inherit;
+  border-color: rgba(255, 107, 138, 0.45);
+  box-shadow: var(--shadow-2);
+  transform: translateY(-1px);
+}
+
+.bookmark__title {
+  font-weight: 600;
+  font-size: 17px;
+  color: var(--text);
+}
+
+.bookmark:hover .bookmark__title {
+  color: var(--accent-deep);
+}
+
+.bookmark__desc {
+  font-size: 15px;
+  color: var(--text-2);
+}
+
+.bookmark__host {
+  margin-top: 4px;
+  font-size: 13px;
+  font-weight: 500;
+  color: var(--text-3);
+}
+
+/* Video embeds */
+.embed__frame {
+  position: relative;
+  aspect-ratio: 16 / 9;
+  border-radius: var(--r-md);
+  overflow: hidden;
+  background: #000;
+}
+
+.embed__frame--tall {
+  aspect-ratio: 9 / 16;
+  max-width: 340px;
+  margin-inline: auto;
+}
+
+.embed__frame iframe {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  border: 0;
 }
 
 /* --- Hero ----------------------------------------------------------------- */
