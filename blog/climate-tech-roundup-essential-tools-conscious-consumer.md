@@ -36,6 +36,8 @@ Tap is free to use and they even raffle off $50 Amazon gift cards to contributor
 >
 > Tap is a marketplace connecting water consumers with water dispensers around the world.
 
+For refilling bigger jugs, [PureWaterFinder](https://purewaterfinder.com/) maps filtered and reverse osmosis refill stations plus springs.
+
 ### Too Good To Go – score deals and reduce food waste
 
 Sarah Soteroff and the team behind Too Good To Go have managed to solve several problems at once. Namely, they give local merchants an additional revenue stream while reducing CO2 emissions from food waste. As consumers, we benefit from last-minute deals on excess food items.
