@@ -36,7 +36,7 @@ Tap is free to use and they even raffle off $50 Amazon gift cards to contributor
 >
 > Tap is a marketplace connecting water consumers with water dispensers around the world.
 
-For refilling bigger jugs, [PureWaterFinder](https://purewaterfinder.com/) maps filtered and reverse osmosis refill stations plus springs for free.
+For refilling bigger jugs, [PureWaterFinder](https://purewaterfinder.com/) maps filtered and reverse osmosis refill stations plus springs.
 
 ### Too Good To Go – score deals and reduce food waste
 
