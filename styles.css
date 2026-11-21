@@ -1429,3 +1429,112 @@ main {
     animation-duration: 0.01ms !important;
   }
 }
+
+/* --- Request a sender form ------------------------------------------------- */
+
+.request-form {
+  width: 100%;
+  max-width: 560px;
+  margin-inline: auto;
+  padding: 24px;
+  text-align: left;
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: var(--r-lg);
+  box-shadow: var(--shadow-1);
+}
+
+.request-form__fields {
+  display: grid;
+  gap: 16px;
+}
+
+.request-form label {
+  display: grid;
+  gap: 6px;
+  font-size: 15px;
+  font-weight: 600;
+  color: var(--text);
+}
+
+.request-form .optional {
+  font-weight: 400;
+  color: var(--text-3);
+}
+
+.request-form input,
+.request-form textarea {
+  width: 100%;
+  padding: 11px 14px;
+  font: inherit;
+  font-size: 16px;
+  font-weight: 400;
+  color: var(--text);
+  background: var(--bg);
+  border: 1px solid var(--border);
+  border-radius: var(--r-md);
+}
+
+.request-form textarea {
+  min-height: 84px;
+  resize: vertical;
+}
+
+.request-form input::placeholder,
+.request-form textarea::placeholder {
+  color: var(--text-3);
+}
+
+.request-form input:focus,
+.request-form textarea:focus {
+  outline: 2px solid var(--accent);
+  outline-offset: 1px;
+  border-color: var(--accent);
+}
+
+.request-form__hp {
+  position: absolute;
+  left: -10000px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.request-form__foot {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+.request-form__privacy {
+  margin: 0;
+  font-size: 13px;
+  color: var(--text-2);
+}
+
+.request-form__status {
+  margin: 12px 0 0;
+  font-size: 15px;
+  color: var(--accent-deep);
+}
+
+.request-form__thanks {
+  text-align: center;
+}
+
+.request-form__thanks h3 {
+  margin: 0 0 8px;
+}
+
+.request-form__thanks p {
+  margin: 0 0 16px;
+  color: var(--text-2);
+}
+
+.request-form button[disabled] {
+  opacity: 0.6;
+  cursor: progress;
+}
