@@ -260,23 +260,80 @@
           </ul>
 
           <p class="directory-empty" id="brand-empty" hidden>
-            No brands match that filter. Try a shorter search, or
-            <a href="/privacy-portals/">check the privacy portals</a>.
+            No brands match that filter. Try a shorter search,
+            <a href="/privacy-portals/">check the privacy portals</a>, or
+            <a href="#request-a-sender" id="brand-request">ask us to add
+            <span id="brand-request-name">it</span></a>.
           </p>
         </div>
       </section>
 
-      <section class="section section--tint-pink">
+      <section class="section section--tint-pink" id="request-a-sender">
         <div class="wrap stack" style="text-align: center">
           <h2>Don't see the sender you're looking for?</h2>
           <p class="sub" style="margin-inline: auto; max-width: 620px">
-            Some brands have no opt-out form at all — those go through a privacy portal
-            instead. If it's missing from both, let us know.
+            Some brands have no opt-out form at all. Those go through a
+            <a href="/privacy-portals/">privacy portal</a> instead. If it's missing from
+            both, tell us who it is and we'll research how to opt out.
           </p>
-          <div class="btn-row" style="justify-content: center">
-            <a class="btn btn--secondary" href="/privacy-portals/">Privacy Portals</a>
-            <button class="btn btn--primary" id="suggest-feature-btn" type="button">
-              Vote for more brands
+          <form
+            class="request-form"
+            id="request-form"
+            action="https://reducemail-server.nolastan.workers.dev/v1/sender-requests"
+            method="post"
+          >
+            <div class="request-form__fields">
+              <label>
+                Sender name
+                <input
+                  name="name"
+                  type="text"
+                  maxlength="120"
+                  required
+                  autocomplete="off"
+                  placeholder="e.g. Harry &amp; David"
+                />
+              </label>
+              <label>
+                <span>Website <span class="optional">(optional)</span></span>
+                <input
+                  name="website"
+                  type="text"
+                  inputmode="url"
+                  maxlength="300"
+                  autocomplete="off"
+                  placeholder="harryanddavid.com"
+                />
+              </label>
+              <label>
+                <span>Anything else? <span class="optional">(optional)</span></span>
+                <textarea
+                  name="note"
+                  maxlength="1000"
+                  placeholder="What kind of mail it is, the return address, or anything you've already tried"
+                ></textarea>
+              </label>
+              <label class="request-form__hp" aria-hidden="true">
+                Company
+                <input name="company" type="text" tabindex="-1" autocomplete="off" />
+              </label>
+              <input type="hidden" name="source" value="" />
+              <input type="hidden" name="return" value="https://www.reducemail.org/opt-out-forms/" />
+            </div>
+            <div class="request-form__foot">
+              <p class="request-form__privacy">No email or account needed.</p>
+              <button class="btn btn--primary" type="submit">Send request</button>
+            </div>
+            <p class="request-form__status" id="request-status" role="status" aria-live="polite"></p>
+          </form>
+          <div class="request-form request-form__thanks" id="request-thanks" tabindex="-1" hidden>
+            <h3>Thanks, we got it.</h3>
+            <p>
+              We'll research how to opt out of <span id="request-thanks-name">that sender</span>
+              and add it to the directory.
+            </p>
+            <button class="btn btn--secondary btn--sm" id="request-another" type="button">
+              Request another sender
             </button>
           </div>
         </div>
@@ -326,12 +383,7 @@
     </footer>
 
     <script src="/directory-filter.js" defer></script>
-    <script src="https://features.vote/widget/widget.js" slug="mail"></script>
-    <script>
-      document.getElementById("suggest-feature-btn").addEventListener("click", function () {
-        window.openFeatureRequestPopup();
-      });
-    </script>
+    <script src="/sender-request.js" defer></script>
     <script src="https://cdn.usefathom.com/script.js" data-site="KEOJWEPM" defer></script>
   </body>
 </html>
