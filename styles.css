@@ -423,27 +423,15 @@ h3,
   grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
 }
 
-/* Five cards that read as one sequence (the big lists): one row once they fit. */
-@media (min-width: 1080px) {
+/* Five cards that read as one sequence (the big lists): one row once each card can be
+   about as wide as a normal grid card. The row breaks out of the 1200px column, up to
+   1600px, centred on the page. */
+@media (min-width: 1400px) {
   .card-grid--five {
+    --row: min(1600px, 100vw - 64px);
+    width: var(--row);
+    margin-inline: calc((100% - var(--row)) / 2);
     grid-template-columns: repeat(5, minmax(0, 1fr));
-    gap: 16px;
-  }
-
-  .card-grid--five .card {
-    padding: 20px;
-  }
-
-  .card-grid--five .resource__art {
-    width: min(140px, 100%);
-  }
-
-  .card-grid--five .resource__title {
-    font-size: 18px;
-  }
-
-  .card-grid--five .resource__desc {
-    font-size: 15px;
   }
 }
 
