@@ -34,6 +34,22 @@
     report(visible);
   }
 
+  // Count clicks per brand in Fathom (already loaded on every page) when the list
+  // asks for it with data-track, e.g. data-track="Opt-out form" sends
+  // "Opt-out form: Patagonia". Fathom is cookieless; no personal data is sent.
+  var track = list.getAttribute("data-track");
+  if (track) {
+    var onClick = function (e) {
+      var link = e.target.closest && e.target.closest("a.entry");
+      if (!link || !window.fathom) return;
+      if (e.type === "auxclick" && e.button !== 1) return; // middle-click opens a tab too
+      var name = link.querySelector(".entry__name") || link;
+      window.fathom.trackEvent(track + ": " + name.textContent.trim());
+    };
+    list.addEventListener("click", onClick);
+    list.addEventListener("auxclick", onClick);
+  }
+
   input.addEventListener("input", filter);
   report(total);
 })();
