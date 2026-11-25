@@ -36,11 +36,15 @@ slash (`/start-here/`), matching the URLs the site used on Ghost.
 | `tools/import-blog.py` | The one-time importer that generated those pages |
 | `tools/optimize-images.py` | Downscales and re-encodes `content/images/` (run before the importer) |
 | `tools/build-sitemap.py` | Regenerates `sitemap.xml` from the pages' canonical tags |
+| `tools/build-favicons.py` | Self-hosts brand favicons and card tints for the Opt-Out Forms page |
 
 Header and footer markup is duplicated per page — when you change one, change them all
 (the five section pages, every article, and `404.html`). Adding a brand means adding one
 `<li data-name="…">` to the relevant directory; the filter and the count pick it up
-automatically. Keep the homepage tile counts in sync.
+automatically. On the Opt-Out Forms page, then run `python3 tools/build-favicons.py`: it
+self-hosts the brand's favicon in `assets/favicons/` and tints the card with its colour
+(add the brand to `DOMAINS` in the script if the form lives on another company's host).
+Clicks on those cards are counted in Fathom as `Opt-out form: <name>` events. Keep the homepage tile counts in sync.
 
 ### Articles
 
