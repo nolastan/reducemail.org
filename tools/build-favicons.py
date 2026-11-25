@@ -142,10 +142,12 @@ def from_site(domain: str) -> Image.Image | None:
         except Exception:
             pass
         candidates = sorted(parser.links, reverse=True)
-    candidates.append((16, "/favicon.ico"))
+    candidates += [(180, "/apple-touch-icon.png"), (16, "/favicon.ico")]
+    candidates.sort(key=lambda c: -c[0])
     for _, href in candidates:
         res = get(urllib.parse.urljoin(base, href))
-        img = res and decode(res[0], min_size=32)
+        # A real apple-touch-icon is 180px; a small file at the guessed path is a stray.
+        img = res and decode(res[0], min_size=64 if href == "/apple-touch-icon.png" else 32)
         if img:
             return img
     return None
@@ -153,7 +155,7 @@ def from_site(domain: str) -> Image.Image | None:
 
 def from_service(domain: str) -> Image.Image | None:
     for url in (
-        f"https://www.google.com/s2/favicons?domain={domain}&sz={SIZE}",
+        f"https://www.google.com/s2/favicons?domain={domain}&sz=128",
         f"https://icons.duckduckgo.com/ip3/{domain}.ico",
     ):
         res = get(url)  # Google answers 404 with a generic globe when it has nothing.
@@ -171,7 +173,8 @@ def save(img: Image.Image, path: Path) -> None:
     bbox = img.getchannel("A").getbbox()
     if bbox:
         img = img.crop(bbox)
-    img.thumbnail((SIZE, SIZE), Image.LANCZOS)
+    scale = SIZE / max(img.size)  # Fill the tile, scaling small icons up as well as down.
+    img = img.resize((max(1, round(img.width * scale)), max(1, round(img.height * scale))), Image.LANCZOS)
     canvas = Image.new("RGBA", (SIZE, SIZE), (0, 0, 0, 0))
     canvas.paste(img, ((SIZE - img.width) // 2, (SIZE - img.height) // 2))
     path.parent.mkdir(parents=True, exist_ok=True)
